@@ -55,13 +55,13 @@ foo?.callSomethingIfFooIsNotNil()
 
 _이유:_ 명시적 옵셔널의 `if let`-바인딩 결과로 더 안전한 코드가 됩니다. 강제 언래핑은 런타임 크래시가 발생할 가능성이 많습니다.
 
-#### 암시적인 언래핑된 옵셔널 피하기 [원문](https://github.com/github/swift-style-guide#avoid-using-implicitly-unwrapped-optionals)
+#### 암시적으로 언래핑된 옵셔널 피하기 [원문](https://github.com/github/swift-style-guide#avoid-using-implicitly-unwrapped-optionals)
 
 만약에 `foo`가 nil이라면 `let foo: FooType!` 대신 `let foo: FooType?`를 가능하면 사용하세요.(주의, `!` 대신 `?` 사용할 수 있습니다.)
 
-_이유:_ 명시적인 옵셔널 결과로 더 안전한 코드가 됩니다. 암시적인 언래핑된 옵셔널은 런타임시 잠재적인 크래시가 됩니다.
+_이유:_ 명시적 옵셔널이 더 안전한 코드입니다. 암시적으로 언래핑된 옵셔널은 런타임시 크래시의 원인이 될 수 있습니다.
 
-#### 읽기전용 속성과 서브스크립트에서 명시적 getter 선호 [원문](https://github.com/github/swift-style-guide#prefer-implicit-getters-on-read-only-properties-and-subscripts)
+#### 읽기전용 속성과 서브스크립트에서 암시적 getter 선호 [원문](https://github.com/github/swift-style-guide#prefer-implicit-getters-on-read-only-properties-and-subscripts)
 
 가능하면 읽기 전용 계산된 속성과 읽기 전용 서브스크립트에서 `get` 키워드는 생략합니다.
 
@@ -137,7 +137,7 @@ let capitals: [Country: City] = [ Sweden: Stockholm ]
 
 #### 필요할 때만 명시적으로 `self` 참조 [원문](https://github.com/github/swift-style-guide#only-explicitly-refer-to-self-when-required)
 
-self에서 속성과 메소드를 접근할 때, 기본적으로 `self` 참조를 벗어납니다:
+self의 속성과 메소드에 접근할 때, `self`를 따로 적지 않습니다.(기본적으로 `self`는 암묵적 참조입니다.):
 
 ```swift
 private class History {
@@ -149,7 +149,7 @@ private class History {
 }
 ```
 
-예를 들어, 클로저 내 또는 인자 이름이 충돌 날 때와 같이 언어가 필요로 할 때만 명시적 키워드가 포함됩니다:
+클로저처럼 파라미터명이 충돌일 경우에만 명시적으로 `self` 키워드를 사용합니다.:
 
 ```swift
 extension History {
@@ -165,13 +165,13 @@ extension History {
 }
 ```
 
-_이유:_ 이는 클로저 내에서 `self`의 캡처링 의미를 더 돋보이게 만들고, 다른 곳에서는 피해야 합니다.
+_이유:_ 클로저 내에서 `self`의 캡처링 의미를 더 돋보이게 만들고, 다른 곳에서 장황하게 사용하는 것을 피할 수 있게 합니다.
 
 #### 클래스 보다 구조체를 선호 [원문](https://github.com/github/swift-style-guide#prefer-structs-over-classes)
 
-클래스로만 제공받는 기능을 필요로 하지 않으면(식별자 또는 파괴자), 구조체로 대신 구현할 수 있습니다.
+클래스에서만 사용가능한 것들(identity, deinitializer 등)이 필요한 경우가 아니라면, 구조체로 구현하세요.
 
-일반적으로 상속은 (스스로가) 클래스들을 사용하는 것이 좋은 이유가 _아닙니다_. 왜냐하면 다형성은 프로토콜을 통해 제공받을 수 있고, 구현 재사용은 구상을 통해서도 가능합니다.
+보통은 클래스를 사용하는 이유가, 상속이 (유일한) 이유는 아닙니다. 왜냐하면 다형성은 프로토콜이 제공할 수 있고, 구현의 재사용은 조립(Composition)을 통해서 가능합니다.
 
 다음은 클래스 계층 구조 입니다:
 
